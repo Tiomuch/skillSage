@@ -21,7 +21,7 @@ const ProfileIcon = ({ color, size }: { color: string; size: number }) => (
 )
 
 const MainTabNavigator = () => (
-  <Tab.Navigator>
+  <Tab.Navigator screenOptions={{ headerShown: false }}>
     <Tab.Screen
       name="Home"
       component={HomeScreen}

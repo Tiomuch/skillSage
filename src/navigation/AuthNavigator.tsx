@@ -12,7 +12,7 @@ type AuthStackParamList = {
 const AuthStack = createNativeStackNavigator<AuthStackParamList>()
 
 const AuthNavigator = () => (
-  <AuthStack.Navigator>
+  <AuthStack.Navigator screenOptions={{ headerShown: false }}>
     <AuthStack.Screen name="Login" component={LoginScreen} />
     <AuthStack.Screen name="Register" component={RegisterScreen} />
   </AuthStack.Navigator>
