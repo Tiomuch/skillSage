@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Input, Divider, Pressable, Icon, FormControl } from 'native-base'
+import { Input, Divider, FormControl, Icon, Pressable } from 'native-base'
 import { useDispatch, useSelector } from 'react-redux'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
@@ -10,14 +10,19 @@ import styles from './index.styled'
 
 import CustomButton from '../../components/CustomButton'
 import { AuthStackParamList } from '../../navigation/AuthNavigator'
-import { selectUsername, selectPassword } from '../../features/auth/selectors'
+import {
+  selectUsername,
+  selectPassword,
+  selectSecretWord,
+} from '../../features/auth/selectors'
 import {
   setUsername,
   setPassword,
+  setSecretWord,
   clearAuthFields,
 } from '../../features/auth/authSlice'
 
-const LoginScreen = () => {
+const RestorePasswordScreen = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showError, setShowError] = useState<boolean>(false)
 
@@ -28,20 +33,19 @@ const LoginScreen = () => {
 
   const username = useSelector(selectUsername)
   const password = useSelector(selectPassword)
+  const secretWord = useSelector(selectSecretWord)
 
-  const onRegisterPress = () => {
-    navigate('Register')
-  }
-
-  const onRestorePasswordPress = () => {
-    navigate('RestorePassword')
+  const onLoginPress = () => {
+    navigate('Login')
   }
 
   const onUsernameChange = (text: string) => dispatch(setUsername(text))
 
   const onPasswordChange = (text: string) => dispatch(setPassword(text))
 
-  const onLoginPress = () => {
+  const onSecretWordChange = (text: string) => dispatch(setSecretWord(text))
+
+  const onRestorePasswordPress = () => {
     if (!showError) {
       setShowError(true)
     }
@@ -105,25 +109,28 @@ const LoginScreen = () => {
 
       <Divider orientation="vertical" size={8} bg="transparent" />
 
-      <CustomButton title="Login" onPress={onLoginPress} />
+      <FormControl isInvalid={showError && !secretWord.isValid}>
+        <Input
+          variant="rounded"
+          placeholder="Secret Word"
+          value={secretWord.value ?? ''}
+          onChangeText={onSecretWordChange}
+        />
+
+        <FormControl.ErrorMessage>
+          Secret Word is invalid. It must contain at least 5 characters
+        </FormControl.ErrorMessage>
+      </FormControl>
+
+      <Divider orientation="vertical" size={8} bg="transparent" />
+
+      <CustomButton title="Restore Password" onPress={onRestorePasswordPress} />
 
       <Divider orientation="vertical" size={4} bg="transparent" />
 
-      <CustomButton
-        title="Register"
-        onPress={onRegisterPress}
-        variant="subtle"
-      />
-
-      <Divider orientation="vertical" size={4} bg="transparent" />
-
-      <CustomButton
-        title="Restore Password"
-        onPress={onRestorePasswordPress}
-        variant="subtle"
-      />
+      <CustomButton title="Login" onPress={onLoginPress} variant="subtle" />
     </SafeAreaView>
   )
 }
 
-export default LoginScreen
+export default RestorePasswordScreen
