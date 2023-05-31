@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import LoginScreen from '../screens/LoginScreen'
 import RegisterScreen from '../screens/RegisterScreen'
 
-type AuthStackParamList = {
+export type AuthStackParamList = {
   Login: undefined
   Register: undefined
 }

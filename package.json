@@ -13,15 +13,22 @@
     "port-reverse": "adb reverse tcp:8081 tcp:8081"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.18.1",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
+    "@reduxjs/toolkit": "^1.9.5",
     "native-base": "^3.4.28",
     "react": "18.2.0",
     "react-native": "0.71.8",
+    "react-native-error-boundary": "^1.2.3",
     "react-native-safe-area-context": "^4.5.3",
     "react-native-screens": "^3.20.0",
-    "react-native-vector-icons": "^9.2.0"
+    "react-native-vector-icons": "^9.2.0",
+    "react-redux": "^8.0.7",
+    "redux": "^4.2.1",
+    "redux-persist": "^6.0.0",
+    "redux-saga": "^1.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
