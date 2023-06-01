@@ -7,22 +7,16 @@ const authService = {
   registerApi: (data: {
     username: string
     password: string
-    secretWord: string
+    secret_word: string
   }) => {
-    return baseServiceMethods.post(`/auth/register`, {
-      ...data,
-      secret_word: data.secretWord,
-    })
+    return baseServiceMethods.post(`/auth/register`, data)
   },
   restorePasswordApi: (data: {
     username: string
     password: string
-    secretWord: string
+    secret_word: string
   }) => {
-    return baseServiceMethods.post(`/auth/password-reset`, {
-      ...data,
-      secret_word: data.secretWord,
-    })
+    return baseServiceMethods.post(`/auth/password-reset`, data)
   },
 }
 

@@ -14,12 +14,14 @@ import {
   selectUsername,
   selectPassword,
   selectSecretWord,
+  selectLoading,
 } from '../../features/auth/selectors'
 import {
   setUsername,
   setPassword,
   setSecretWord,
   clearAuthFields,
+  restorePasswordRequest,
 } from '../../features/auth/authSlice'
 
 const RestorePasswordScreen = () => {
@@ -31,6 +33,7 @@ const RestorePasswordScreen = () => {
   const { navigate } =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>()
 
+  const loading = useSelector(selectLoading)
   const username = useSelector(selectUsername)
   const password = useSelector(selectPassword)
   const secretWord = useSelector(selectSecretWord)
@@ -53,6 +56,8 @@ const RestorePasswordScreen = () => {
     if (!username.isValid || !password.isValid || !secretWord.isValid) {
       return
     }
+
+    dispatch(restorePasswordRequest())
   }
 
   useFocusEffect(
@@ -128,7 +133,11 @@ const RestorePasswordScreen = () => {
 
       <Divider orientation="vertical" size={8} bg="transparent" />
 
-      <CustomButton title="Restore Password" onPress={onRestorePasswordPress} />
+      <CustomButton
+        title="Restore Password"
+        onPress={onRestorePasswordPress}
+        isLoading={loading}
+      />
 
       <Divider orientation="vertical" size={4} bg="transparent" />
 

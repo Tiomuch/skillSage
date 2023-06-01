@@ -14,12 +14,14 @@ import {
   selectUsername,
   selectPassword,
   selectSecretWord,
+  selectLoading,
 } from '../../features/auth/selectors'
 import {
   setUsername,
   setPassword,
   setSecretWord,
   clearAuthFields,
+  registerRequest,
 } from '../../features/auth/authSlice'
 
 const RegisterScreen = () => {
@@ -31,6 +33,7 @@ const RegisterScreen = () => {
   const { navigate } =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>()
 
+  const loading = useSelector(selectLoading)
   const username = useSelector(selectUsername)
   const password = useSelector(selectPassword)
   const secretWord = useSelector(selectSecretWord)
@@ -53,6 +56,8 @@ const RegisterScreen = () => {
     if (!username.isValid || !password.isValid || !secretWord.isValid) {
       return
     }
+
+    dispatch(registerRequest())
   }
 
   useFocusEffect(
@@ -128,7 +133,11 @@ const RegisterScreen = () => {
 
       <Divider orientation="vertical" size={8} bg="transparent" />
 
-      <CustomButton title="Register" onPress={onRegisterPress} />
+      <CustomButton
+        title="Register"
+        onPress={onRegisterPress}
+        isLoading={loading}
+      />
 
       <Divider orientation="vertical" size={4} bg="transparent" />
 

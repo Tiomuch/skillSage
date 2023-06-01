@@ -8,3 +8,5 @@ export const selectPassword = (state: { auth: AuthState }) =>
 
 export const selectSecretWord = (state: { auth: AuthState }) =>
   state.auth.secretWord
+
+export const selectLoading = (state: { auth: AuthState }) => state.auth.loading

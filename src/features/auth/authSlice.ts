@@ -20,7 +20,7 @@ export type AuthState = {
   loading: boolean
   error: any
   user: User | null
-  refreshToken: string | null
+  accessToken: string | null
 }
 
 const initialState: AuthState = {
@@ -30,7 +30,7 @@ const initialState: AuthState = {
   loading: false,
   error: null,
   user: null,
-  refreshToken: null,
+  accessToken: null,
 }
 
 export const authSlice = createSlice({
@@ -38,15 +38,15 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setUsername: (state, { payload }) => {
-      state.username.value = payload
+      state.username.value = payload.trim()
       state.username.isValid = payload.trim().length > 4
     },
     setPassword: (state, { payload }) => {
-      state.password.value = payload
+      state.password.value = payload.trim()
       state.password.isValid = passwordRegex.test(payload.trim())
     },
     setSecretWord: (state, { payload }) => {
-      state.secretWord.value = payload
+      state.secretWord.value = payload.trim()
       state.secretWord.isValid = payload.trim().length > 4
     },
     loginRequest: state => {
@@ -54,8 +54,8 @@ export const authSlice = createSlice({
     },
     loginSuccess: (state, { payload }) => {
       state.loading = false
-      state.user = payload.user
-      state.refreshToken = payload.refreshToken
+      state.user = payload.data
+      state.accessToken = payload.accessToken
       state.error = null
     },
     loginFailure: (state, { payload }) => {
@@ -67,8 +67,8 @@ export const authSlice = createSlice({
     },
     registerSuccess: (state, { payload }) => {
       state.loading = false
-      state.user = payload.user
-      state.refreshToken = payload.refreshToken
+      state.user = payload.data
+      state.accessToken = payload.accessToken
       state.error = null
     },
     registerFailure: (state, { payload }) => {
@@ -90,6 +90,10 @@ export const authSlice = createSlice({
       state.username = initialState.username
       state.password = initialState.password
       state.secretWord = initialState.secretWord
+      state.loading = initialState.loading
+      state.error = initialState.error
+      state.user = initialState.user
+      state.accessToken = initialState.accessToken
     },
   },
 })

@@ -1,5 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects'
-import { PayloadAction } from '@reduxjs/toolkit'
+import { call, put, takeLatest, select } from 'redux-saga/effects'
 
 import {
   loginSuccess,
@@ -9,12 +8,22 @@ import {
   restorePasswordSuccess,
   restorePasswordFailure,
 } from '../features/auth/authSlice'
+import authService from '../services/authService'
+import {
+  selectPassword,
+  selectUsername,
+  selectSecretWord,
+} from '../features/auth/selectors'
 
-function* login({
-  payload,
-}: PayloadAction<{ username: string; password: string }>) {
+function* login(): any {
   try {
-    const result = yield call(apiRequest, '/api/login', payload)
+    const username = yield select(selectUsername)
+    const password = yield select(selectPassword)
+
+    const result = yield call(authService.loginApi, {
+      username: username.value,
+      password: password.value,
+    })
 
     yield put(loginSuccess(result))
   } catch (error) {
@@ -22,11 +31,17 @@ function* login({
   }
 }
 
-function* register({
-  payload,
-}: PayloadAction<{ username: string; password: string; secretWord: string }>) {
+function* register(): any {
   try {
-    const result = yield call(apiRequest, '/api/register', payload)
+    const username = yield select(selectUsername)
+    const password = yield select(selectPassword)
+    const secretWord = yield select(selectSecretWord)
+
+    const result = yield call(authService.registerApi, {
+      username: username.value,
+      password: password.value,
+      secret_word: secretWord.value,
+    })
 
     yield put(registerSuccess(result))
   } catch (error) {
@@ -34,11 +49,17 @@ function* register({
   }
 }
 
-function* restorePassword({
-  payload,
-}: PayloadAction<{ username: string; password: string; secretWord: string }>) {
+function* restorePassword(): any {
   try {
-    const result = yield call(apiRequest, '/api/register', payload)
+    const username = yield select(selectUsername)
+    const password = yield select(selectPassword)
+    const secretWord = yield select(selectSecretWord)
+
+    const result = yield call(authService.restorePasswordApi, {
+      username: username.value,
+      password: password.value,
+      secret_word: secretWord.value,
+    })
 
     yield put(restorePasswordSuccess(result))
   } catch (error) {

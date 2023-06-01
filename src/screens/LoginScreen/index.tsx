@@ -10,11 +10,16 @@ import styles from './index.styled'
 
 import CustomButton from '../../components/CustomButton'
 import { AuthStackParamList } from '../../navigation/AuthNavigator'
-import { selectUsername, selectPassword } from '../../features/auth/selectors'
+import {
+  selectUsername,
+  selectPassword,
+  selectLoading,
+} from '../../features/auth/selectors'
 import {
   setUsername,
   setPassword,
   clearAuthFields,
+  loginRequest,
 } from '../../features/auth/authSlice'
 
 const LoginScreen = () => {
@@ -26,6 +31,7 @@ const LoginScreen = () => {
   const { navigate } =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>()
 
+  const loading = useSelector(selectLoading)
   const username = useSelector(selectUsername)
   const password = useSelector(selectPassword)
 
@@ -49,6 +55,8 @@ const LoginScreen = () => {
     if (!username.isValid || !password.isValid) {
       return
     }
+
+    dispatch(loginRequest())
   }
 
   useFocusEffect(
@@ -109,7 +117,7 @@ const LoginScreen = () => {
 
       <Divider orientation="vertical" size={8} bg="transparent" />
 
-      <CustomButton title="Login" onPress={onLoginPress} />
+      <CustomButton title="Login" onPress={onLoginPress} isLoading={loading} />
 
       <Divider orientation="vertical" size={4} bg="transparent" />
 
