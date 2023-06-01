@@ -45,6 +45,10 @@ const LoginScreen = () => {
     if (!showError) {
       setShowError(true)
     }
+
+    if (!username.isValid || !password.isValid) {
+      return
+    }
   }
 
   useFocusEffect(

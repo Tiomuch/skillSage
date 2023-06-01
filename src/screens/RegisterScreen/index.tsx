@@ -49,6 +49,10 @@ const RegisterScreen = () => {
     if (!showError) {
       setShowError(true)
     }
+
+    if (!username.isValid || !password.isValid || !secretWord.isValid) {
+      return
+    }
   }
 
   useFocusEffect(
