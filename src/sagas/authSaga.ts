@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import axios from 'axios'
+import { PayloadAction } from '@reduxjs/toolkit'
 
 import {
   loginSuccess,
@@ -10,14 +10,11 @@ import {
   restorePasswordFailure,
 } from '../features/auth/authSlice'
 
-async function apiRequest(url: string, data: any) {
-  const response = await axios.post(url, data)
-  return response.data
-}
-
-function* login(action: { payload: { username: string; password: string } }) {
+function* login({
+  payload,
+}: PayloadAction<{ username: string; password: string }>) {
   try {
-    const result = yield call(apiRequest, '/api/login', action.payload)
+    const result = yield call(apiRequest, '/api/login', payload)
 
     yield put(loginSuccess(result))
   } catch (error) {
@@ -25,11 +22,11 @@ function* login(action: { payload: { username: string; password: string } }) {
   }
 }
 
-function* register(action: {
-  payload: { username: string; password: string; secretWord: string }
-}) {
+function* register({
+  payload,
+}: PayloadAction<{ username: string; password: string; secretWord: string }>) {
   try {
-    const result = yield call(apiRequest, '/api/register', action.payload)
+    const result = yield call(apiRequest, '/api/register', payload)
 
     yield put(registerSuccess(result))
   } catch (error) {
@@ -37,11 +34,11 @@ function* register(action: {
   }
 }
 
-function* restorePassword(action: {
-  payload: { username: string; password: string; secretWord: string }
-}) {
+function* restorePassword({
+  payload,
+}: PayloadAction<{ username: string; password: string; secretWord: string }>) {
   try {
-    const result = yield call(apiRequest, '/api/register', action.payload)
+    const result = yield call(apiRequest, '/api/register', payload)
 
     yield put(restorePasswordSuccess(result))
   } catch (error) {
