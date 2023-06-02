@@ -45,15 +45,15 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setUsername: (state, { payload }) => {
+    setAuthUsername: (state, { payload }) => {
       state.username.value = payload.trim()
       state.username.isValid = payload.trim().length > 4
     },
-    setPassword: (state, { payload }) => {
+    setAuthPassword: (state, { payload }) => {
       state.password.value = payload.trim()
       state.password.isValid = passwordRegex.test(payload.trim())
     },
-    setSecretWord: (state, { payload }) => {
+    setAuthSecretWord: (state, { payload }) => {
       state.secretWord.value = payload.trim()
       state.secretWord.isValid = payload.trim().length > 4
     },
@@ -104,8 +104,21 @@ export const authSlice = createSlice({
         ...(state.user as User),
         refresh_token: payload.refreshToken,
       }
+      state.error = null
     },
     refreshTokenFailure: (state, { payload }) => {
+      state.loading = false
+      state.error = payload
+    },
+    getProfileRequest: state => {
+      state.loading = true
+    },
+    getProfileSuccess: (state, { payload }) => {
+      state.loading = false
+      state.user = payload
+      state.error = null
+    },
+    getProfileFailure: (state, { payload }) => {
       state.loading = false
       state.error = payload
     },
@@ -129,9 +142,9 @@ export const authSlice = createSlice({
 })
 
 export const {
-  setUsername,
-  setPassword,
-  setSecretWord,
+  setAuthUsername,
+  setAuthPassword,
+  setAuthSecretWord,
   clearAuthFields,
   loginRequest,
   loginSuccess,
@@ -145,6 +158,9 @@ export const {
   refreshTokenRequest,
   refreshTokenSuccess,
   refreshTokenFailure,
+  getProfileRequest,
+  getProfileSuccess,
+  getProfileFailure,
   logout,
 } = authSlice.actions
 

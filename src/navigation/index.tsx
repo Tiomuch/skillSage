@@ -4,10 +4,10 @@ import { useSelector } from 'react-redux'
 import AuthNavigator from './AuthNavigator'
 import MainTabNavigator from './MainTabNavigator'
 
-import { selectUser } from '../features/auth/selectors'
+import { selectAuthUser } from '../features/auth/selectors'
 
 const AppNavigator = () => {
-  const user = useSelector(selectUser)
+  const user = useSelector(selectAuthUser)
 
   return user ? <MainTabNavigator /> : <AuthNavigator />
 }

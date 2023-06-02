@@ -21,6 +21,12 @@ const authService = {
   refreshTokenApi: (data: { token: string }) => {
     return baseServiceMethods.post(`/auth/refresh-token`, data)
   },
+  getProfileApi: (token: string) => {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    }
+    return baseServiceMethods.get(`/auth/profile`, headers)
+  },
 }
 
 export default authService

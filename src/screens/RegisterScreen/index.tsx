@@ -11,15 +11,15 @@ import styles from './index.styled'
 import CustomButton from '../../components/CustomButton'
 import { AuthStackParamList } from '../../navigation/AuthNavigator'
 import {
-  selectUsername,
-  selectPassword,
-  selectSecretWord,
-  selectLoading,
+  selectAuthUsername,
+  selectAuthPassword,
+  selectAuthSecretWord,
+  selectAuthLoading,
 } from '../../features/auth/selectors'
 import {
-  setUsername,
-  setPassword,
-  setSecretWord,
+  setAuthUsername,
+  setAuthPassword,
+  setAuthSecretWord,
   clearAuthFields,
   registerRequest,
 } from '../../features/auth/authSlice'
@@ -33,20 +33,20 @@ const RegisterScreen = () => {
   const { navigate } =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>()
 
-  const loading = useSelector(selectLoading)
-  const username = useSelector(selectUsername)
-  const password = useSelector(selectPassword)
-  const secretWord = useSelector(selectSecretWord)
+  const loading = useSelector(selectAuthLoading)
+  const username = useSelector(selectAuthUsername)
+  const password = useSelector(selectAuthPassword)
+  const secretWord = useSelector(selectAuthSecretWord)
 
   const onLoginPress = () => {
     navigate('Login')
   }
 
-  const onUsernameChange = (text: string) => dispatch(setUsername(text))
+  const onUsernameChange = (text: string) => dispatch(setAuthUsername(text))
 
-  const onPasswordChange = (text: string) => dispatch(setPassword(text))
+  const onPasswordChange = (text: string) => dispatch(setAuthPassword(text))
 
-  const onSecretWordChange = (text: string) => dispatch(setSecretWord(text))
+  const onSecretWordChange = (text: string) => dispatch(setAuthSecretWord(text))
 
   const onRegisterPress = () => {
     if (!showError) {

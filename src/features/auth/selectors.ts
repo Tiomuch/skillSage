@@ -1,14 +1,18 @@
 import { AuthState } from './authSlice'
 
-export const selectUsername = (state: { auth: AuthState }) =>
+export const selectAuthUsername = (state: { auth: AuthState }) =>
   state.auth.username
 
-export const selectPassword = (state: { auth: AuthState }) =>
+export const selectAuthPassword = (state: { auth: AuthState }) =>
   state.auth.password
 
-export const selectSecretWord = (state: { auth: AuthState }) =>
+export const selectAuthSecretWord = (state: { auth: AuthState }) =>
   state.auth.secretWord
 
-export const selectLoading = (state: { auth: AuthState }) => state.auth.loading
+export const selectAuthLoading = (state: { auth: AuthState }) =>
+  state.auth.loading
 
-export const selectUser = (state: { auth: AuthState }) => state.auth.user
+export const selectAuthUser = (state: { auth: AuthState }) => state.auth.user
+
+export const selectAuthAccessToken = (state: { auth: AuthState }) =>
+  state.auth.accessToken

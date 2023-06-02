@@ -12,19 +12,22 @@ import {
   refreshTokenSuccess,
   refreshTokenFailure,
   logout,
+  getProfileSuccess,
+  getProfileFailure,
 } from '../features/auth/authSlice'
 import authService from '../services/authService'
 import {
-  selectPassword,
-  selectUsername,
-  selectSecretWord,
-  selectUser,
+  selectAuthPassword,
+  selectAuthUsername,
+  selectAuthSecretWord,
+  selectAuthUser,
+  selectAuthAccessToken,
 } from '../features/auth/selectors'
 
 function* login(): any {
   try {
-    const username = yield select(selectUsername)
-    const password = yield select(selectPassword)
+    const username = yield select(selectAuthUsername)
+    const password = yield select(selectAuthPassword)
 
     const result = yield call(authService.loginApi, {
       username: username.value,
@@ -57,9 +60,9 @@ function* login(): any {
 
 function* register(): any {
   try {
-    const username = yield select(selectUsername)
-    const password = yield select(selectPassword)
-    const secretWord = yield select(selectSecretWord)
+    const username = yield select(selectAuthUsername)
+    const password = yield select(selectAuthPassword)
+    const secretWord = yield select(selectAuthSecretWord)
 
     const result = yield call(authService.registerApi, {
       username: username.value,
@@ -93,9 +96,9 @@ function* register(): any {
 
 function* restorePassword(): any {
   try {
-    const username = yield select(selectUsername)
-    const password = yield select(selectPassword)
-    const secretWord = yield select(selectSecretWord)
+    const username = yield select(selectAuthUsername)
+    const password = yield select(selectAuthPassword)
+    const secretWord = yield select(selectAuthSecretWord)
 
     const result = yield call(authService.restorePasswordApi, {
       username: username.value,
@@ -135,7 +138,7 @@ function* restorePassword(): any {
 
 function* refreshToken(): any {
   try {
-    const user = yield select(selectUser)
+    const user = yield select(selectAuthUser)
 
     const currentRefreshToken = get(user, 'refresh_token', null)
 
@@ -151,9 +154,22 @@ function* refreshToken(): any {
   }
 }
 
+function* getProfile(): any {
+  try {
+    const accessToken = yield select(selectAuthAccessToken)
+
+    const result = yield call(authService.getProfileApi, accessToken)
+
+    yield put(getProfileSuccess(result))
+  } catch (error) {
+    yield put(getProfileFailure(error))
+  }
+}
+
 export function* authSaga() {
   yield takeLatest('auth/loginRequest', login)
   yield takeLatest('auth/registerRequest', register)
   yield takeLatest('auth/restorePasswordRequest', restorePassword)
   yield takeLatest('auth/refreshTokenRequest', refreshToken)
+  yield takeLatest('auth/getProfileRequest', getProfile)
 }
