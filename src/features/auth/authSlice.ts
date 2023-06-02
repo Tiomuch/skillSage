@@ -115,6 +115,13 @@ export const authSlice = createSlice({
       state.secretWord = initialState.secretWord
       state.loading = initialState.loading
       state.error = initialState.error
+    },
+    logout: state => {
+      state.username = initialState.username
+      state.password = initialState.password
+      state.secretWord = initialState.secretWord
+      state.loading = initialState.loading
+      state.error = initialState.error
       state.user = initialState.user
       state.accessToken = initialState.accessToken
     },
@@ -138,6 +145,7 @@ export const {
   refreshTokenRequest,
   refreshTokenSuccess,
   refreshTokenFailure,
+  logout,
 } = authSlice.actions
 
 export default authSlice.reducer

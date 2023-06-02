@@ -11,7 +11,7 @@ import {
   restorePasswordFailure,
   refreshTokenSuccess,
   refreshTokenFailure,
-  clearAuthFields,
+  logout,
 } from '../features/auth/authSlice'
 import authService from '../services/authService'
 import {
@@ -147,7 +147,7 @@ function* refreshToken(): any {
   } catch (error) {
     yield put(refreshTokenFailure(error))
 
-    yield put(clearAuthFields())
+    yield put(logout())
   }
 }
 

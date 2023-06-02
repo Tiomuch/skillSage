@@ -1,9 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
-import {
-  clearAuthFields,
-  refreshTokenRequest,
-} from '../features/auth/authSlice'
+import { refreshTokenRequest } from '../features/auth/authSlice'
 import { store } from '../store'
 
 const baseService = axios.create({
