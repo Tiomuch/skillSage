@@ -1,8 +1,29 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
+import {
+  clearAuthFields,
+  refreshTokenRequest,
+} from '../features/auth/authSlice'
+import { store } from '../store'
+
 const baseService = axios.create({
   baseURL: 'https://skill-sage-api.vercel.app/api',
 })
+
+baseService.interceptors.response.use(
+  (response: AxiosResponse) => response,
+  async error => {
+    const originalRequest = error.config
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true
+
+      store.dispatch(refreshTokenRequest())
+    }
+
+    return Promise.reject(error)
+  },
+)
 
 interface RequestData {
   [key: string]: any

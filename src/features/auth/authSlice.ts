@@ -2,7 +2,15 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import { passwordRegex } from '../../constants/validation'
 
-export type User = any
+export type User = {
+  username: string
+  nickname: string | null
+  password: string
+  refresh_token: string
+  secret_word: string
+  id: number
+  created_at: string
+}
 
 export type AuthState = {
   username: {
@@ -86,6 +94,21 @@ export const authSlice = createSlice({
       state.loading = false
       state.error = payload
     },
+    refreshTokenRequest: state => {
+      state.loading = true
+    },
+    refreshTokenSuccess: (state, { payload }) => {
+      state.loading = false
+      state.accessToken = payload.accessToken
+      state.user = {
+        ...(state.user as User),
+        refresh_token: payload.refreshToken,
+      }
+    },
+    refreshTokenFailure: (state, { payload }) => {
+      state.loading = false
+      state.error = payload
+    },
     clearAuthFields: state => {
       state.username = initialState.username
       state.password = initialState.password
@@ -112,6 +135,9 @@ export const {
   restorePasswordRequest,
   restorePasswordSuccess,
   restorePasswordFailure,
+  refreshTokenRequest,
+  refreshTokenSuccess,
+  refreshTokenFailure,
 } = authSlice.actions
 
 export default authSlice.reducer

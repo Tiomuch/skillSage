@@ -9,12 +9,16 @@ import {
   registerFailure,
   restorePasswordSuccess,
   restorePasswordFailure,
+  refreshTokenSuccess,
+  refreshTokenFailure,
+  clearAuthFields,
 } from '../features/auth/authSlice'
 import authService from '../services/authService'
 import {
   selectPassword,
   selectUsername,
   selectSecretWord,
+  selectUser,
 } from '../features/auth/selectors'
 
 function* login(): any {
@@ -129,8 +133,27 @@ function* restorePassword(): any {
   }
 }
 
+function* refreshToken(): any {
+  try {
+    const user = yield select(selectUser)
+
+    const currentRefreshToken = get(user, 'refresh_token', null)
+
+    const result = yield call(authService.refreshTokenApi, {
+      token: currentRefreshToken,
+    })
+
+    yield put(refreshTokenSuccess(result))
+  } catch (error) {
+    yield put(refreshTokenFailure(error))
+
+    yield put(clearAuthFields())
+  }
+}
+
 export function* authSaga() {
   yield takeLatest('auth/loginRequest', login)
   yield takeLatest('auth/registerRequest', register)
   yield takeLatest('auth/restorePasswordRequest', restorePassword)
+  yield takeLatest('auth/refreshTokenRequest', refreshToken)
 }

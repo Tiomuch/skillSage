@@ -18,6 +18,9 @@ const authService = {
   }) => {
     return baseServiceMethods.post(`/auth/password-reset`, data)
   },
+  refreshTokenApi: (data: { token: string }) => {
+    return baseServiceMethods.post(`/auth/refresh-token`, data)
+  },
 }
 
 export default authService
