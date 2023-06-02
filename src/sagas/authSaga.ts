@@ -1,4 +1,6 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects'
+import Toast from 'react-native-toast-message'
+import get from 'lodash/get'
 
 import {
   loginSuccess,
@@ -26,8 +28,26 @@ function* login(): any {
     })
 
     yield put(loginSuccess(result))
+
+    Toast.show({
+      type: 'success',
+      text1: 'Welcome!',
+      position: 'bottom',
+    })
   } catch (error) {
     yield put(loginFailure(error))
+
+    const errorMessage = get(
+      error,
+      'response.data.message',
+      'Something went wrong',
+    )
+
+    Toast.show({
+      type: 'error',
+      text1: errorMessage,
+      position: 'bottom',
+    })
   }
 }
 
@@ -44,8 +64,26 @@ function* register(): any {
     })
 
     yield put(registerSuccess(result))
+
+    Toast.show({
+      type: 'success',
+      text1: 'Welcome!',
+      position: 'bottom',
+    })
   } catch (error) {
     yield put(registerFailure(error))
+
+    const errorMessage = get(
+      error,
+      'response.data.message',
+      'Something went wrong',
+    )
+
+    Toast.show({
+      type: 'error',
+      text1: errorMessage,
+      position: 'bottom',
+    })
   }
 }
 
@@ -62,8 +100,32 @@ function* restorePassword(): any {
     })
 
     yield put(restorePasswordSuccess(result))
+
+    const successMessage = get(
+      result,
+      'message',
+      'Password changed successfully',
+    )
+
+    Toast.show({
+      type: 'success',
+      text1: successMessage,
+      position: 'bottom',
+    })
   } catch (error) {
     yield put(restorePasswordFailure(error))
+
+    const errorMessage = get(
+      error,
+      'response.data.message',
+      'Something went wrong',
+    )
+
+    Toast.show({
+      type: 'error',
+      text1: errorMessage,
+      position: 'bottom',
+    })
   }
 }
 

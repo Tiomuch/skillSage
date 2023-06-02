@@ -4,6 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import ErrorBoundary from 'react-native-error-boundary'
 import { Provider } from 'react-redux'
 import { NavigationContainer } from '@react-navigation/native'
+import Toast from 'react-native-toast-message'
 
 import AppNavigator from './src/navigation'
 import { store } from './src/store'
@@ -20,6 +21,8 @@ const App = (): JSX.Element => {
           </NativeBaseProvider>
         </SafeAreaProvider>
       </NavigationContainer>
+
+      <Toast />
     </ErrorBoundary>
   )
 }
