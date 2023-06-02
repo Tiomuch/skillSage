@@ -1,8 +1,10 @@
 import React from 'react'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
-const HomeScreen = (): JSX.Element => {
-  return <MaterialCommunityIcons name="home" size={50} color="black" />
+import styles from './index.styled'
+
+const HomeScreen = () => {
+  return <SafeAreaView style={styles.container}></SafeAreaView>
 }
 
 export default HomeScreen

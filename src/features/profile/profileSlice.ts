@@ -29,8 +29,12 @@ export const profileSlice = createSlice({
       state.username.isValid = payload.trim().length > 4
     },
     setProfileNickname: (state, { payload }) => {
-      state.nickname.value = payload.trim()
-      state.nickname.isValid = payload.trim().length > 4
+      if (payload) {
+        state.nickname.value = payload.trim()
+        state.nickname.isValid = payload.trim().length > 4
+      } else {
+        state.nickname = initialState.nickname
+      }
     },
     updateUserRequest: state => {
       state.loading = true

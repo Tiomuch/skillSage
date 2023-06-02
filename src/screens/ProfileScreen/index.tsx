@@ -9,11 +9,8 @@ import styles from './index.styled'
 
 import CustomButton from '../../components/CustomButton'
 import CustomAvatar from '../../components/CustomAvatar'
-import { logout } from '../../features/auth/authSlice'
-import {
-  selectAuthUser,
-  selectAuthLoading,
-} from '../../features/auth/selectors'
+import { getProfileRequest, logout } from '../../features/auth/authSlice'
+import { selectAuthUser } from '../../features/auth/selectors'
 import {
   selectProfileUsername,
   selectProfileNickname,
@@ -31,7 +28,6 @@ const ProfileScreen = () => {
   const dispatch = useDispatch()
 
   const user = useSelector(selectAuthUser)
-  const authLoading = useSelector(selectAuthLoading)
   const profileLoading = useSelector(selectProfileLoading)
   const profileUsername = useSelector(selectProfileUsername)
   const profileNickname = useSelector(selectProfileNickname)
@@ -62,6 +58,10 @@ const ProfileScreen = () => {
   }
 
   useEffect(() => {
+    dispatch(getProfileRequest())
+  }, [dispatch])
+
+  useEffect(() => {
     dispatch(setProfileUsername(username))
 
     dispatch(setProfileNickname(nickname))
@@ -78,7 +78,7 @@ const ProfileScreen = () => {
           <Input
             variant="rounded"
             placeholder="Username"
-            value={profileUsername.value ?? ''}
+            value={profileUsername?.value ?? ''}
             onChangeText={onUsernameChange}
           />
 
@@ -93,7 +93,7 @@ const ProfileScreen = () => {
           <Input
             variant="rounded"
             placeholder="Nickname"
-            value={profileNickname.value ?? ''}
+            value={profileNickname?.value ?? ''}
             onChangeText={onNicknameChange}
           />
 
@@ -107,7 +107,7 @@ const ProfileScreen = () => {
         <CustomButton
           title="Save"
           onPress={onSavePress}
-          isLoading={profileLoading || authLoading}
+          isLoading={profileLoading}
         />
 
         <Divider orientation="vertical" size={8} bg="transparent" />

@@ -1,10 +1,10 @@
 import { ProfileState } from './profileSlice'
 
-export const selectProfileUsername = (state: { auth: ProfileState }) =>
-  state.auth.username
+export const selectProfileUsername = (state: { profile: ProfileState }) =>
+  state.profile.username
 
-export const selectProfileNickname = (state: { auth: ProfileState }) =>
-  state.auth.nickname
+export const selectProfileNickname = (state: { profile: ProfileState }) =>
+  state.profile.nickname
 
-export const selectProfileLoading = (state: { auth: ProfileState }) =>
-  state.auth.loading
+export const selectProfileLoading = (state: { profile: ProfileState }) =>
+  state.profile.loading

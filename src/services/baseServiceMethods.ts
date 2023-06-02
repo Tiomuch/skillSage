@@ -16,6 +16,8 @@ baseService.interceptors.response.use(
       originalRequest._retry = true
 
       store.dispatch(refreshTokenRequest())
+
+      return baseService(originalRequest)
     }
 
     return Promise.reject(error)
@@ -81,6 +83,13 @@ const baseServiceMethods = {
     headers?: AxiosRequestConfig['headers'],
     responseHandler?: ResponseHandler<T>,
   ): Promise<T> => request<T>('post', url, data, headers, responseHandler),
+
+  put: <T>(
+    url: string,
+    data?: RequestData,
+    headers?: AxiosRequestConfig['headers'],
+    responseHandler?: ResponseHandler<T>,
+  ): Promise<T> => request<T>('put', url, data, headers, responseHandler),
 }
 
 export default baseServiceMethods

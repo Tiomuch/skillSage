@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+import { updateUserSuccess } from '../profile/profileSlice'
+
 import { passwordRegex } from '../../constants/validation'
 
 export type User = {
@@ -138,6 +140,11 @@ export const authSlice = createSlice({
       state.user = initialState.user
       state.accessToken = initialState.accessToken
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(updateUserSuccess, (state, { payload }) => {
+      state.user = payload ?? null
+    })
   },
 })
 

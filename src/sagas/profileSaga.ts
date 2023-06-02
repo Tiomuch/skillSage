@@ -11,7 +11,10 @@ import {
   selectProfileUsername,
   selectProfileNickname,
 } from '../features/profile/selectors'
-import { selectAuthUser } from '../features/auth/selectors'
+import {
+  selectAuthAccessToken,
+  selectAuthUser,
+} from '../features/auth/selectors'
 
 function* updateUser(): any {
   try {
@@ -19,27 +22,42 @@ function* updateUser(): any {
     const username = yield select(selectProfileUsername)
     const nickname = yield select(selectProfileNickname)
 
+    const newUsername = get(username, 'value', null)
+    const newNickname = get(nickname, 'value', null)
+
     const currentUsername = get(user, 'username', null)
     const currentNickname = get(user, 'nickname', null)
 
-    const canBeUpdated = false
+    let canBeUpdated = false
+    let newUserData = {}
 
-    if(){}
+    if (newUsername !== currentUsername) {
+      canBeUpdated = true
+      newUserData = { username: newUsername }
+    }
 
-    if(canBeUpdated){
-    const result = yield call(profileService.updateUserApi, {
-      username: username.value,
-      password: password.value,
-    })
+    if (newNickname !== currentNickname) {
+      canBeUpdated = true
+      newUserData = { ...newUserData, nickname: newNickname }
+    }
 
-    yield put(updateUserSuccess(result))
+    if (canBeUpdated) {
+      const accessToken = yield select(selectAuthAccessToken)
 
-    Toast.show({
-      type: 'success',
-      text1: 'Welcome!',
-      position: 'bottom',
-    })
-  }
+      const result = yield call(
+        profileService.updateUserApi,
+        newUserData,
+        accessToken,
+      )
+
+      yield put(updateUserSuccess(result))
+
+      Toast.show({
+        type: 'success',
+        text1: 'Data successfully changed',
+        position: 'bottom',
+      })
+    }
   } catch (error) {
     yield put(updateUserFailure(error))
 
