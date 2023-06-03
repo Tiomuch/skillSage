@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { logout } from '../auth/authSlice'
 
 export type ProfileState = {
   username: {
@@ -53,6 +54,14 @@ export const profileSlice = createSlice({
       state.loading = initialState.loading
       state.error = initialState.error
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(logout, state => {
+      state.username = initialState.username
+      state.nickname = initialState.nickname
+      state.loading = initialState.loading
+      state.error = initialState.error
+    })
   },
 })
 

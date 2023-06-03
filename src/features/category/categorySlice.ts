@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { logout } from '../auth/authSlice'
 
 export type Category = {
   id: number
@@ -53,6 +54,15 @@ export const categorySlice = createSlice({
       state.categories = initialState.categories
       state.total = initialState.total
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(logout, state => {
+      state.search = initialState.search
+      state.loading = initialState.loading
+      state.error = initialState.error
+      state.categories = initialState.categories
+      state.total = initialState.total
+    })
   },
 })
 

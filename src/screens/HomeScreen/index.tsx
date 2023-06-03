@@ -1,15 +1,17 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Text, FlatList } from 'react-native'
+import { Text, FlatList, ActivityIndicator } from 'react-native'
 import { Divider } from 'native-base'
 import { useDispatch, useSelector } from 'react-redux'
 
 import styles from './index.styled'
+import CategoryItem from './components/CategoryItem'
 
 import SearchInput from '../../components/SearchInput'
 import {
   selectCategorySearch,
   selectCategoryCategories,
+  selectCategoryTotal,
 } from '../../features/category/selectors'
 import {
   Category,
@@ -20,6 +22,7 @@ import {
 const HomeScreen = () => {
   const dispatch = useDispatch()
 
+  const total = useSelector(selectCategoryTotal)
   const search = useSelector(selectCategorySearch)
   const categories = useSelector(selectCategoryCategories)
 
@@ -29,9 +32,15 @@ const HomeScreen = () => {
 
   const keyExtractor = (item: Category) => item.id.toString()
 
-  // const onEndReached = () => {}
+  const onEndReached = () => {
+    if (categories.length >= total) return
 
-  const renderItem = ({ item }: { item: Category }) => <Text>{item.title}</Text>
+    dispatch(searchCategoryRequest({ loadMore: true } as any))
+  }
+
+  const renderItem = ({ item }: { item: Category }) => (
+    <CategoryItem item={item} />
+  )
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,8 +63,8 @@ const HomeScreen = () => {
         data={categories}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
-        // onEndReached={onEndReached}
-        // onEndReachedThreshold={0.5}
+        onEndReached={onEndReached}
+        showsVerticalScrollIndicator={false}
       />
     </SafeAreaView>
   )
