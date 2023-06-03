@@ -9,7 +9,7 @@ import styles from './index.styled'
 
 import CustomButton from '../../components/CustomButton'
 import CustomAvatar from '../../components/CustomAvatar'
-import { getProfileRequest, logout } from '../../features/auth/authSlice'
+import { logout } from '../../features/auth/authSlice'
 import { selectAuthUser } from '../../features/auth/selectors'
 import {
   selectProfileUsername,
@@ -56,10 +56,6 @@ const ProfileScreen = () => {
 
     dispatch(updateUserRequest())
   }
-
-  useEffect(() => {
-    dispatch(getProfileRequest())
-  }, [dispatch])
 
   useEffect(() => {
     dispatch(setProfileUsername(username))

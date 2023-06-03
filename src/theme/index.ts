@@ -3,4 +3,5 @@ export const colors = {
   gray: '#333333',
   lime: '#00FF00',
   sand: '#EAFACD',
+  black: '#000',
 }

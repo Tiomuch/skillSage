@@ -8,6 +8,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     paddingHorizontal: 16,
   },
+  title: {
+    fontSize: 40,
+    color: colors.black,
+    textAlign: 'center',
+  },
 })
 
 export default styles
