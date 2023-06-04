@@ -1,6 +1,6 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Text, FlatList, ActivityIndicator } from 'react-native'
+import { Text, FlatList } from 'react-native'
 import { Divider } from 'native-base'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -19,7 +19,7 @@ import {
   setCategorySearch,
 } from '../../features/category/categorySlice'
 
-const HomeScreen = () => {
+const CategoryScreen = () => {
   const dispatch = useDispatch()
 
   const total = useSelector(selectCategoryTotal)
@@ -70,4 +70,4 @@ const HomeScreen = () => {
   )
 }
 
-export default HomeScreen
+export default CategoryScreen

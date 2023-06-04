@@ -3,9 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { useDispatch } from 'react-redux'
 
+import HomeNavigator from './HomeNavigator'
+
 import { getProfileRequest } from '../features/auth/authSlice'
 import { searchCategoryRequest } from '../features/category/categorySlice'
-import HomeScreen from '../screens/HomeScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 
 type TabParamList = {
@@ -38,7 +39,7 @@ const MainTabNavigator = () => {
       initialRouteName="Home">
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeNavigator}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: HomeIcon,

@@ -28,8 +28,6 @@ function* searchCategory({
 
     let limit = 10
 
-    console.log(loadMore && categories.length < total)
-
     if (loadMore && categories.length < total) {
       limit = categories.length + 10
     }
