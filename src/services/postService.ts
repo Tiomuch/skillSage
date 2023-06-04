@@ -15,6 +15,15 @@ const postService = {
       headers,
     )
   },
+  createPostApi: (
+    token: string,
+    data: { title: string; description: string; category_id: number },
+  ) => {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    }
+    return baseServiceMethods.post(`/posts`, data, headers)
+  },
 }
 
 export default postService

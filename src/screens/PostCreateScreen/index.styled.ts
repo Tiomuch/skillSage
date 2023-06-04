@@ -19,6 +19,12 @@ const styles = StyleSheet.create({
     color: colors.black,
     textAlign: 'center',
   },
+  scrollViewContainer: {
+    flex: 1,
+  },
+  buttonContainer: {
+    alignSelf: 'center',
+  },
 })
 
 export default styles

@@ -12,3 +12,8 @@ export const selectPostTotal = (state: { post: PostState }) => state.post.total
 
 export const selectPostCategoryId = (state: { post: PostState }) =>
   state.post.categoryId
+
+export const selectPostTitle = (state: { post: PostState }) => state.post.title
+
+export const selectPostDescription = (state: { post: PostState }) =>
+  state.post.description
