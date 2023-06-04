@@ -4,10 +4,10 @@ import { Divider } from 'native-base'
 
 import styles from './index.styled'
 
-import { Category } from '../../../features/category/categorySlice'
+import { Post } from '../../../features/post/postSlice'
 
 type PostProps = {
-  item: Category
+  item: Post
 }
 
 const PostItem: FC<PostProps> = ({ item }) => {
@@ -16,7 +16,7 @@ const PostItem: FC<PostProps> = ({ item }) => {
       <TouchableOpacity style={styles.container}>
         <Text style={styles.title}>{item.title}</Text>
 
-        <Text style={styles.countText}>Posts: {item.post_count}</Text>
+        {/* <Text style={styles.countText}>Posts: {item.post_count}</Text> */}
       </TouchableOpacity>
 
       <Divider orientation="vertical" size={8} bg="transparent" />

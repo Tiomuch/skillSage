@@ -16,8 +16,6 @@ baseService.interceptors.response.use(
       originalRequest._retry = true
 
       store.dispatch(refreshTokenRequest())
-
-      return
     }
 
     return Promise.reject(error)

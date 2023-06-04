@@ -3,21 +3,29 @@ import { TouchableOpacity, Text } from 'react-native'
 import { Divider } from 'native-base'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
 
 import styles from './index.styled'
 
 import { Category } from '../../../features/category/categorySlice'
 import { HomeStackParamList } from '../../../navigation/HomeNavigator'
+import { setPostCategoryId } from '../../../features/post/postSlice'
 
 type CategoryProps = {
   item: Category
 }
 
 const CategoryItem: FC<CategoryProps> = ({ item }) => {
+  const dispatch = useDispatch()
+
   const { navigate } =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>()
 
-  const onPress = () => navigate('PostScreen')
+  const onPress = () => {
+    dispatch(setPostCategoryId(item.id))
+
+    navigate('PostScreen')
+  }
 
   return (
     <>
