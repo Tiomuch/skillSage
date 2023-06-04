@@ -8,6 +8,11 @@ import {
   searchPostFailure,
   createPostSuccess,
   createPostFailure,
+  getPostByIdSuccess,
+  getPostByIdFailure,
+  deletePostSuccess,
+  deletePostFailure,
+  searchPostRequest,
 } from '../features/post/postSlice'
 import {
   selectPostSearch,
@@ -16,6 +21,7 @@ import {
   selectPostCategoryId,
   selectPostTitle,
   selectPostDescription,
+  selectPostId,
 } from '../features/post/selectors'
 import { selectAuthAccessToken } from '../features/auth/selectors'
 
@@ -70,6 +76,8 @@ function* createPost(): any {
 
     yield put(createPostSuccess(result))
 
+    yield put(searchPostRequest({ loadMore: true } as any))
+
     Toast.show({
       type: 'success',
       text1: 'Post successfully created',
@@ -92,7 +100,57 @@ function* createPost(): any {
   }
 }
 
+function* getPostById(): any {
+  try {
+    const postId = yield select(selectPostId)
+
+    const accessToken = yield select(selectAuthAccessToken)
+
+    const result = yield call(postService.getPostByIdApi, accessToken, postId)
+
+    yield put(getPostByIdSuccess(result))
+  } catch (error) {
+    yield put(getPostByIdFailure(error))
+  }
+}
+
+function* deletePost(): any {
+  try {
+    const postId = yield select(selectPostId)
+
+    const accessToken = yield select(selectAuthAccessToken)
+
+    const result = yield call(postService.deletePostApi, accessToken, postId)
+
+    yield put(deletePostSuccess(result))
+
+    yield put(searchPostRequest({ loadMore: true } as any))
+
+    Toast.show({
+      type: 'success',
+      text1: 'Post successfully deleted',
+      position: 'bottom',
+    })
+  } catch (error) {
+    yield put(deletePostFailure(error))
+
+    const errorMessage = get(
+      error,
+      'response.data.message',
+      'Something went wrong',
+    )
+
+    Toast.show({
+      type: 'error',
+      text1: errorMessage,
+      position: 'bottom',
+    })
+  }
+}
+
 export function* postSaga() {
   yield takeLatest('post/searchPostRequest' as any, searchPost)
   yield takeLatest('post/createPostRequest', createPost)
+  yield takeLatest('post/getPostByIdRequest', getPostById)
+  yield takeLatest('post/deletePostRequest', deletePost)
 }

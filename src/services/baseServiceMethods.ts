@@ -88,6 +88,13 @@ const baseServiceMethods = {
     headers?: AxiosRequestConfig['headers'],
     responseHandler?: ResponseHandler<T>,
   ): Promise<T> => request<T>('put', url, data, headers, responseHandler),
+
+  delete: <T>(
+    url: string,
+    headers?: AxiosRequestConfig['headers'],
+    responseHandler?: ResponseHandler<T>,
+  ): Promise<T> =>
+    request<T>('delete', url, undefined, headers, responseHandler),
 }
 
 export default baseServiceMethods

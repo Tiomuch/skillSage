@@ -24,6 +24,18 @@ const postService = {
     }
     return baseServiceMethods.post(`/posts`, data, headers)
   },
+  getPostByIdApi: (token: string, postId: number) => {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    }
+    return baseServiceMethods.get(`/posts/${postId}`, headers)
+  },
+  deletePostApi: (token: string, postId: number) => {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    }
+    return baseServiceMethods.delete(`/posts/${postId}`, headers)
+  },
 }
 
 export default postService

@@ -33,6 +33,8 @@ export type PostState = {
     value: string | null
     isValid: boolean
   }
+  post: Post | null
+  postId: number | null
 }
 
 const initialState: PostState = {
@@ -50,6 +52,8 @@ const initialState: PostState = {
     value: null,
     isValid: false,
   },
+  post: null,
+  postId: null,
 }
 
 export const postSlice = createSlice({
@@ -58,6 +62,9 @@ export const postSlice = createSlice({
   reducers: {
     setPostSearch: (state, { payload }) => {
       state.search = payload
+    },
+    setPostId: (state, { payload }) => {
+      state.postId = payload
     },
     setPostCategoryId: (state, { payload }) => {
       state.categoryId = payload
@@ -96,9 +103,38 @@ export const postSlice = createSlice({
       state.loading = false
       state.error = payload
     },
+    getPostByIdRequest: state => {
+      state.loading = true
+    },
+    getPostByIdSuccess: (state, { payload }) => {
+      state.loading = false
+      state.error = null
+      state.post = payload
+    },
+    getPostByIdFailure: (state, { payload }) => {
+      state.loading = false
+      state.error = payload
+    },
+    deletePostRequest: state => {
+      state.loading = true
+    },
+    deletePostSuccess: state => {
+      state.loading = false
+      state.error = null
+    },
+    deletePostFailure: (state, { payload }) => {
+      state.loading = false
+      state.error = payload
+    },
     clearPostCreateFields: state => {
       state.title = initialState.title
       state.description = initialState.description
+      state.loading = initialState.loading
+      state.error = initialState.error
+    },
+    clearPostDetailsFields: state => {
+      state.post = initialState.post
+      state.postId = initialState.postId
       state.loading = initialState.loading
       state.error = initialState.error
     },
@@ -111,6 +147,8 @@ export const postSlice = createSlice({
       state.categoryId = initialState.categoryId
       state.title = initialState.title
       state.description = initialState.description
+      state.post = initialState.post
+      state.postId = initialState.postId
     },
   },
   extraReducers: builder => {
@@ -123,6 +161,8 @@ export const postSlice = createSlice({
       state.categoryId = initialState.categoryId
       state.title = initialState.title
       state.description = initialState.description
+      state.post = initialState.post
+      state.postId = initialState.postId
     })
   },
 })
@@ -140,6 +180,14 @@ export const {
   createPostRequest,
   createPostSuccess,
   createPostFailure,
+  getPostByIdRequest,
+  getPostByIdSuccess,
+  getPostByIdFailure,
+  setPostId,
+  clearPostDetailsFields,
+  deletePostRequest,
+  deletePostSuccess,
+  deletePostFailure,
 } = postSlice.actions
 
 export default postSlice.reducer

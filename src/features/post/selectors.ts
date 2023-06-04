@@ -17,3 +17,7 @@ export const selectPostTitle = (state: { post: PostState }) => state.post.title
 
 export const selectPostDescription = (state: { post: PostState }) =>
   state.post.description
+
+export const selectPost = (state: { post: PostState }) => state.post.post
+
+export const selectPostId = (state: { post: PostState }) => state.post.postId

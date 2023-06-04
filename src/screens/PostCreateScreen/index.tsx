@@ -51,8 +51,6 @@ const PostCreateScreen = () => {
     dispatch(createPostRequest())
 
     goBack()
-
-    dispatch(searchPostRequest({ loadMore: true } as any))
   }
 
   useEffect(() => {
