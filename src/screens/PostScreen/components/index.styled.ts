@@ -18,6 +18,14 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: colors.gray,
   },
+  nameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  name: {
+    fontSize: 20,
+    color: colors.black,
+  },
 })
 
 export default styles

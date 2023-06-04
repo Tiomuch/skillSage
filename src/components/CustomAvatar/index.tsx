@@ -5,12 +5,13 @@ import styles from './index.styled'
 
 type CustomAvatarProps = {
   letter: string
+  size?: number
 }
 
-const CustomAvatar: FC<CustomAvatarProps> = ({ letter }) => {
+const CustomAvatar: FC<CustomAvatarProps> = ({ letter, size = 100 }) => {
   return (
-    <View style={styles.circle}>
-      <Text style={styles.letter}>{letter}</Text>
+    <View style={styles.circle(size)}>
+      <Text style={styles.letter(size)}>{letter}</Text>
     </View>
   )
 }
