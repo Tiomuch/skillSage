@@ -4,14 +4,15 @@ const postService = {
   searchPostApi: (
     token: string,
     title: string,
-    categoryId: number,
+    categoryId: number | string = '',
+    userId: number | string = '',
     limit = 10,
   ) => {
     const headers = {
       Authorization: `Bearer ${token}`,
     }
     return baseServiceMethods.get(
-      `/posts/?limit=${limit}&title=${title}&category_id=${categoryId}`,
+      `/posts/?limit=${limit}&title=${title}&category_id=${categoryId}&user_id=${userId}`,
       headers,
     )
   },

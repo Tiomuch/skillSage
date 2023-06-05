@@ -82,8 +82,10 @@ baseService.interceptors.response.use(
         return response
       } catch (refreshError) {
         // If the token refresh fails, we log out and reject all requests from the queue
-        await store.dispatch(logout())
-        processQueue()
+        if (!isRefreshingToken) {
+          await store.dispatch(logout())
+          processQueue()
+        }
 
         return Promise.reject(refreshError)
       } finally {

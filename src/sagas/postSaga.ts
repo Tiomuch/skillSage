@@ -23,16 +23,21 @@ import {
   selectPostDescription,
   selectPostId,
 } from '../features/post/selectors'
-import { selectAuthAccessToken } from '../features/auth/selectors'
+import {
+  selectAuthAccessToken,
+  selectAuthUser,
+} from '../features/auth/selectors'
 
 function* searchPost({
-  payload: { loadMore = false } = {},
+  payload: { loadMore = false, myPosts = false } = {},
 }: {
   payload?: {
     loadMore?: boolean
+    myPosts?: boolean
   }
 }): any {
   try {
+    const user = yield select(selectAuthUser)
     const total = yield select(selectPostTotal)
     const posts = yield select(selectPostPosts)
     const search = yield select(selectPostSearch)
@@ -46,11 +51,15 @@ function* searchPost({
       limit = posts.length + 10
     }
 
+    const chosenCategoryId = myPosts ? '' : categoryId
+    const chosenUserId = myPosts ? user?.id : ''
+
     const result: any = yield call(
       postService.searchPostApi,
       accessToken,
       search,
-      categoryId,
+      chosenCategoryId,
+      chosenUserId,
       limit,
     )
 

@@ -150,6 +150,17 @@ export const postSlice = createSlice({
       state.post = initialState.post
       state.postId = initialState.postId
     },
+    clearMyPostsFields: state => {
+      state.search = initialState.search
+      state.loading = initialState.loading
+      state.error = initialState.error
+      state.posts = initialState.posts
+      state.total = initialState.total
+      state.title = initialState.title
+      state.description = initialState.description
+      state.post = initialState.post
+      state.postId = initialState.postId
+    },
   },
   extraReducers: builder => {
     builder.addCase(logout, state => {
@@ -188,6 +199,7 @@ export const {
   deletePostRequest,
   deletePostSuccess,
   deletePostFailure,
+  clearMyPostsFields,
 } = postSlice.actions
 
 export default postSlice.reducer
