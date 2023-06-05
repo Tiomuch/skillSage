@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "start": "react-native start",
     "test": "jest",
-    "port-reverse": "adb reverse tcp:8081 tcp:8081"
+    "port-reverse": "adb reverse tcp:8081 tcp:8081",
+    "createCleanDebugAPK": "cd android && ./gradlew clean && ./gradlew assembleRelease && cd .. && open ./android/app/build/outputs/apk/release"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.18.1",
