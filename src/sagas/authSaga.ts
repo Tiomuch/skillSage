@@ -11,7 +11,6 @@ import {
   restorePasswordFailure,
   refreshTokenSuccess,
   refreshTokenFailure,
-  logout,
   getProfileSuccess,
   getProfileFailure,
 } from '../features/auth/authSlice'
@@ -149,8 +148,6 @@ function* refreshToken(): any {
     yield put(refreshTokenSuccess(result))
   } catch (error) {
     yield put(refreshTokenFailure(error))
-
-    yield put(logout())
   }
 }
 

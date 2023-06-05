@@ -3,6 +3,7 @@ import { logout } from '../auth/authSlice'
 
 export type Comment = {
   id: number
+  text: string
   user_id: number
   post_id: number
   created_at: string
@@ -81,6 +82,11 @@ export const commentSlice = createSlice({
       state.loading = false
       state.error = payload
     },
+    clearCommentCreateFields: state => {
+      state.loading = initialState.loading
+      state.error = initialState.error
+      state.text = initialState.text
+    },
     clearCommentFields: state => {
       state.loading = initialState.loading
       state.error = initialState.error
@@ -110,6 +116,7 @@ export const {
   deleteCommentSuccess,
   deleteCommentFailure,
   setCommentText,
+  clearCommentCreateFields,
 } = commentSlice.actions
 
 export default commentSlice.reducer

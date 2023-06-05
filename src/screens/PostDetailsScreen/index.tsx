@@ -25,20 +25,29 @@ import {
   clearPostDetailsFields,
   deletePostRequest,
   getPostByIdRequest,
-  searchPostRequest,
 } from '../../features/post/postSlice'
 import { selectAuthUser } from '../../features/auth/selectors'
 import CustomAvatar from '../../components/CustomAvatar'
+import {
+  getCommentsRequest,
+  clearCommentFields,
+} from '../../features/comment/commentSlice'
+import { selectCommentTotal } from '../../features/comment/selectors'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { HomeStackParamList } from '../../navigation/HomeNavigator'
+import CustomButton from '../../components/CustomButton'
 
 const PostDetailsScreen = () => {
   const dispatch = useDispatch()
 
-  const { goBack } = useNavigation()
+  const { goBack, navigate } =
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>()
 
   const post = useSelector(selectPost)
   const user = useSelector(selectAuthUser)
   const postId = useSelector(selectPostId)
-  const loading = useSelector(selectPostLoading)
+  const total = useSelector(selectCommentTotal)
+  const postLoading = useSelector(selectPostLoading)
 
   const title = get(post, 'title', '')
   const description = get(post, 'description', '')
@@ -55,19 +64,23 @@ const PostDetailsScreen = () => {
     goBack()
   }
 
-  const onPlusPress = () => {
-    // navigate('CommentCreateScreen')
-  }
+  const onPlusPress = () => navigate('CommentCreateScreen')
+
+  const onCommentsPress = () => navigate('CommentScreen')
 
   useEffect(() => {
     if (postId) {
       dispatch(getPostByIdRequest())
+
+      dispatch(getCommentsRequest())
     }
   }, [dispatch, postId])
 
   useEffect(() => {
     return () => {
       dispatch(clearPostDetailsFields())
+
+      dispatch(clearCommentFields())
     }
   }, [dispatch])
 
@@ -104,7 +117,7 @@ const PostDetailsScreen = () => {
 
         <Divider orientation="vertical" size={8} bg="transparent" />
 
-        {loading ? (
+        {postLoading ? (
           <ActivityIndicator size="large" />
         ) : (
           <>
@@ -119,12 +132,28 @@ const PostDetailsScreen = () => {
         <Divider orientation="vertical" size={8} bg="transparent" />
 
         <View style={styles.commentsHeader}>
-          <Text style={styles.text}>Comments:</Text>
+          <Text style={styles.text}>Comments: {total}</Text>
 
           <TouchableOpacity onPress={onPlusPress} hitSlop={20}>
             <Icon name="plus" size={30} color={colors.lime} />
           </TouchableOpacity>
         </View>
+
+        {total > 0 && (
+          <>
+            <Divider orientation="vertical" size={8} bg="transparent" />
+
+            <View style={styles.buttonContainer}>
+              <CustomButton
+                title="See Comments"
+                onPress={onCommentsPress}
+                variant="subtle"
+              />
+            </View>
+          </>
+        )}
+
+        <Divider orientation="vertical" size={8} bg="transparent" />
       </ScrollView>
     </SafeAreaView>
   )

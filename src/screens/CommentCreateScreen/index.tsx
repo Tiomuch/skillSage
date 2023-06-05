@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Divider, FormControl, Input, TextArea } from 'native-base'
+import { Divider, FormControl, TextArea } from 'native-base'
 import { Text, View, TouchableOpacity, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { useNavigation } from '@react-navigation/native'
@@ -11,50 +11,44 @@ import styles from './index.styled'
 import { colors } from '../../theme'
 import CustomButton from '../../components/CustomButton'
 import {
-  selectPostLoading,
-  selectPostTitle,
-  selectPostDescription,
-} from '../../features/post/selectors'
+  selectCommentText,
+  selectCommentLoading,
+} from '../../features/comment/selectors'
 import {
-  clearPostCreateFields,
-  setPostDescription,
-  setPostTitle,
-  createPostRequest,
-} from '../../features/post/postSlice'
+  clearCommentCreateFields,
+  createCommentRequest,
+  setCommentText,
+} from '../../features/comment/commentSlice'
 
-const PostCreateScreen = () => {
+const CommentCreateScreen = () => {
   const [showError, setShowError] = useState<boolean>(false)
 
   const dispatch = useDispatch()
 
   const { goBack } = useNavigation()
 
-  const loading = useSelector(selectPostLoading)
-  const title = useSelector(selectPostTitle)
-  const description = useSelector(selectPostDescription)
+  const text = useSelector(selectCommentText)
+  const loading = useSelector(selectCommentLoading)
 
-  const onTitleChange = (text: string) => dispatch(setPostTitle(text))
-
-  const onDescriptionChange = (text: string) =>
-    dispatch(setPostDescription(text))
+  const onTextChange = (newText: string) => dispatch(setCommentText(newText))
 
   const onSavePress = () => {
     if (!showError) {
       setShowError(true)
     }
 
-    if (!title.isValid || !description.isValid) {
+    if (!text.isValid) {
       return
     }
 
-    dispatch(createPostRequest())
+    dispatch(createCommentRequest())
 
     goBack()
   }
 
   useEffect(() => {
     return () => {
-      dispatch(clearPostCreateFields())
+      dispatch(clearCommentCreateFields())
     }
   }, [dispatch])
 
@@ -68,40 +62,25 @@ const PostCreateScreen = () => {
             <Icon name="arrow-left" size={30} color={colors.black} />
           </TouchableOpacity>
 
-          <Text style={styles.title}>Create Post</Text>
+          <Text style={styles.title}>Create</Text>
 
           <Icon name="plus" size={30} color={colors.white} />
         </View>
 
         <Divider orientation="vertical" size={8} bg="transparent" />
 
-        <FormControl isInvalid={showError && !title.isValid}>
-          <Input
-            variant="rounded"
-            placeholder="Title"
-            value={title?.value ?? ''}
-            onChangeText={onTitleChange}
-          />
-
-          <FormControl.ErrorMessage>
-            Title can't be empty.
-          </FormControl.ErrorMessage>
-        </FormControl>
-
-        <Divider orientation="vertical" size={8} bg="transparent" />
-
-        <FormControl isInvalid={showError && !description.isValid}>
+        <FormControl isInvalid={showError && !text.isValid}>
           <TextArea
             placeholder="Description"
-            value={description?.value ?? ''}
-            onChangeText={onDescriptionChange}
+            value={text?.value ?? ''}
+            onChangeText={onTextChange}
             numberOfLines={8}
             autoCompleteType="off"
             h={200}
           />
 
           <FormControl.ErrorMessage>
-            Description can't be empty.
+            Text can't be empty.
           </FormControl.ErrorMessage>
         </FormControl>
 
@@ -121,4 +100,4 @@ const PostCreateScreen = () => {
   )
 }
 
-export default PostCreateScreen
+export default CommentCreateScreen

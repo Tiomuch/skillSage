@@ -1,11 +1,47 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
-import { refreshTokenRequest } from '../features/auth/authSlice'
+import { refreshTokenRequest, logout } from '../features/auth/authSlice'
 import { store } from '../store'
 
 const baseService = axios.create({
   baseURL: 'https://skill-sage-api.vercel.app/api',
 })
+
+let isRefreshingToken = false
+let failedRequestsQueue: any = []
+
+const addToQueue = (error: any, originalRequest: AxiosRequestConfig) => {
+  return new Promise((resolve, reject) => {
+    failedRequestsQueue.push({ error, originalRequest, resolve, reject })
+  })
+}
+
+const processQueue = () => {
+  failedRequestsQueue.forEach(async (item: any) => {
+    const { error, originalRequest, resolve, reject } = item
+
+    if (error) {
+      reject(error)
+    } else {
+      try {
+        const newRequestConfig = {
+          ...originalRequest,
+          headers: {
+            ...originalRequest.headers,
+            Authorization: `Bearer ${store.getState().auth.accessToken}`,
+          },
+        }
+
+        const response = await baseService.request(newRequestConfig)
+        resolve(response)
+      } catch (requestError) {
+        reject(requestError)
+      }
+    }
+  })
+
+  failedRequestsQueue = []
+}
 
 baseService.interceptors.response.use(
   (response: AxiosResponse) => response,
@@ -13,9 +49,46 @@ baseService.interceptors.response.use(
     const originalRequest = error.config
 
     if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshingToken) {
+        return addToQueue(error, originalRequest)
+          .then(() => {
+            return baseService.request(originalRequest)
+          })
+          .catch(promiseError => {
+            return Promise.reject(promiseError)
+          })
+      }
+
       originalRequest._retry = true
 
-      store.dispatch(refreshTokenRequest())
+      isRefreshingToken = true
+
+      try {
+        await store.dispatch(refreshTokenRequest())
+
+        // If the token refresh was successful, we resend the original request
+        const newRequestConfig = {
+          ...originalRequest,
+          headers: {
+            ...originalRequest.headers,
+            Authorization: `Bearer ${store.getState().auth.accessToken}`,
+          },
+        }
+        const response = await baseService.request(newRequestConfig)
+
+        // Successfully completed request - resend all requests from the queue
+        processQueue()
+
+        return response
+      } catch (refreshError) {
+        // If the token refresh fails, we log out and reject all requests from the queue
+        await store.dispatch(logout())
+        processQueue()
+
+        return Promise.reject(refreshError)
+      } finally {
+        isRefreshingToken = false
+      }
     }
 
     return Promise.reject(error)

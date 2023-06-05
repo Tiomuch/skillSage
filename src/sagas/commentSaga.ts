@@ -134,7 +134,7 @@ function* deleteComment({
 }
 
 export function* commentSaga() {
-  yield takeLatest('comment/searchPostRequest' as any, getComments)
+  yield takeLatest('comment/getCommentsRequest' as any, getComments)
   yield takeLatest('comment/createCommentRequest', createComment)
   yield takeLatest('comment/deleteCommentRequest' as any, deleteComment)
 }

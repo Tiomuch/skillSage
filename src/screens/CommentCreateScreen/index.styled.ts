@@ -14,38 +14,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  headerTitle: {
+  title: {
     fontSize: 40,
     color: colors.black,
     textAlign: 'center',
   },
   scrollViewContainer: {
     flex: 1,
-  },
-  title: {
-    fontSize: 30,
-    color: colors.lime,
-  },
-  description: {
-    fontSize: 20,
-    color: colors.gray,
-  },
-  nameContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  name: {
-    fontSize: 20,
-    color: colors.black,
-  },
-  text: {
-    fontSize: 20,
-    color: colors.black,
-  },
-  commentsHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   buttonContainer: {
     alignSelf: 'center',
