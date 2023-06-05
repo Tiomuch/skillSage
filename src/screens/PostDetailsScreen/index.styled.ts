@@ -38,6 +38,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: colors.black,
   },
+  text: {
+    fontSize: 20,
+    color: colors.black,
+  },
+  commentsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 })
 
 export default styles

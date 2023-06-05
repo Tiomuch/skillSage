@@ -3,7 +3,14 @@ import { authSaga } from './authSaga'
 import { profileSaga } from './profileSaga'
 import { categorySaga } from './categorySaga'
 import { postSaga } from './postSaga'
+import { commentSaga } from './commentSaga'
 
 export default function* rootSaga() {
-  yield all([authSaga(), profileSaga(), categorySaga(), postSaga()])
+  yield all([
+    authSaga(),
+    profileSaga(),
+    categorySaga(),
+    postSaga(),
+    commentSaga(),
+  ])
 }

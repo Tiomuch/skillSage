@@ -55,6 +55,10 @@ const PostDetailsScreen = () => {
     goBack()
   }
 
+  const onPlusPress = () => {
+    // navigate('CommentCreateScreen')
+  }
+
   useEffect(() => {
     if (postId) {
       dispatch(getPostByIdRequest())
@@ -111,6 +115,16 @@ const PostDetailsScreen = () => {
             <Text style={styles.description}>{description}</Text>
           </>
         )}
+
+        <Divider orientation="vertical" size={8} bg="transparent" />
+
+        <View style={styles.commentsHeader}>
+          <Text style={styles.text}>Comments:</Text>
+
+          <TouchableOpacity onPress={onPlusPress} hitSlop={20}>
+            <Icon name="plus" size={30} color={colors.lime} />
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   )
